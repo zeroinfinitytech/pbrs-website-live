@@ -1,4 +1,4 @@
-const V='pbrs-8fbd188cd5',CORE=['./','a-8fbd188cd5.js'],WARM=["img/0f7da731e066.jpg","img/b6cfccce2bc1.jpg","img/e5a83ece2815.jpg","img/427f72291eab.jpg"];
+const V='pbrs-7d3a3a89fe',CORE=['./','a-7d3a3a89fe.js'],WARM=["img/0f7da731e066.jpg","img/b6cfccce2bc1.jpg","img/e5a83ece2815.jpg","img/427f72291eab.jpg"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()).then(()=>caches.open(V).then(c=>Promise.all(WARM.map(u=>c.match(u).then(r=>r||fetch(u).then(x=>x.ok&&c.put(u,x))).catch(()=>0))))))});
 const swr=(req)=>caches.open(V).then(c=>c.match(req).then(hit=>{const net=fetch(req).then(r=>{if(r&&(r.ok||r.type==='opaque'))c.put(req,r.clone());return r}).catch(()=>hit);return hit||net}));
